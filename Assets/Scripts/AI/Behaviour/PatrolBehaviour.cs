@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class PatrolBehaviour : AIBehaviour
 {
-	public bool x = true;
-	
 	[SerializeField] private AIPath ai;
 	
 	[Space]
@@ -16,8 +14,6 @@ public class PatrolBehaviour : AIBehaviour
 	
 	private void Update()
 	{
-		Enabled = x;
-		
 		if (patrolPoints.Length == 0 || !Enabled)
 		{
 			return;

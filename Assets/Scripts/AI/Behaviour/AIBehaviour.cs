@@ -19,6 +19,10 @@ public abstract class AIBehaviour : MonoBehaviour
 				{
 					OnBehaviourEnabled();
 				}
+				else
+				{
+					OnBehaviourDisabled();
+				}
 			}
 		}
 	}
