@@ -14,8 +14,7 @@ public class CharacterController : MonoBehaviour
     [Header("Params")]
     [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float boxCastDistance = 1f;
-    [SerializeField] private Vector3 boxCastSize = Vector3.one;
-    [SerializeField] private Vector3 boxCastOffset = Vector3.up;
+    [SerializeField] private Vector3 sphereCastOffset = Vector3.up;
 
     private float characterAngle = 0;
 
@@ -66,7 +65,14 @@ public class CharacterController : MonoBehaviour
             nextPosition = transform.position - (Time.deltaTime * finalSpeed) * Vector3.forward;
         }
 
-        if (!Physics.BoxCast(nextPosition + boxCastOffset, boxCastSize, Vector3.forward, Quaternion.identity, boxCastDistance, wallLayer))
+        Collider[] colliders = Physics.OverlapSphere(nextPosition + sphereCastOffset, 0.5f, wallLayer);
+
+        foreach (var item in colliders)
+        {
+            Debug.Log(item.name);
+        }
+
+        if (colliders.Length <= 0)
         {
             transform.position = nextPosition;
         }
@@ -82,7 +88,9 @@ public class CharacterController : MonoBehaviour
             nextPosition = transform.position - (Time.deltaTime * finalSpeed) * Vector3.right;
         }
 
-        if (!Physics.BoxCast(nextPosition + boxCastOffset, boxCastSize, Vector3.forward, Quaternion.identity, boxCastDistance, wallLayer))
+        colliders = Physics.OverlapSphere(nextPosition + sphereCastOffset, 0.5f, wallLayer);
+
+        if (colliders.Length <= 0)
         {
             transform.position = nextPosition;
         }
