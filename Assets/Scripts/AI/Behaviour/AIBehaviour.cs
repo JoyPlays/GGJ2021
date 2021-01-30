@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using Pathfinding;
 using UnityEngine;
 
 public abstract class AIBehaviour : MonoBehaviour
 {
 	private bool behaviourEnabled = true;
-	
 	public bool Enabled
 	{
 		get => behaviourEnabled;
@@ -26,7 +24,15 @@ public abstract class AIBehaviour : MonoBehaviour
 			}
 		}
 	}
+	
+	public abstract AIPath AI { get; }
 
 	protected abstract void OnBehaviourEnabled();
 	protected abstract void OnBehaviourDisabled();
+
+	public float GetSpeedPercent()
+	{
+		float speedPercent = AI.velocity.magnitude / AI.maxSpeed;
+		return speedPercent;
+	}
 }

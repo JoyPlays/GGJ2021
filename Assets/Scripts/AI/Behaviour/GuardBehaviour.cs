@@ -8,17 +8,19 @@ public class GuardBehaviour : AIBehaviour
 	
 	[Space]
 	[SerializeField] private Transform guardPoint;
+	
+	public override AIPath AI => ai;
 
 	private void Start()
 	{
 		MoveToGuardPoint();
 	}
-
+	
 	private void MoveToGuardPoint()
 	{
-		ai.destination = guardPoint.position;
+		AI.destination = guardPoint.position;
 
-		ai.SearchPath();
+		AI.SearchPath();
 	}
 
 	protected override void OnBehaviourEnabled()
@@ -28,7 +30,7 @@ public class GuardBehaviour : AIBehaviour
 
 	protected override void OnBehaviourDisabled()
 	{
-		ai.SetPath(null);
-		ai.destination = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+		AI.SetPath(null);
+		AI.destination = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
 	}
 }

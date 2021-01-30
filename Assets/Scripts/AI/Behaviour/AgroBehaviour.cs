@@ -12,6 +12,8 @@ public class AgroBehaviour : AIBehaviour
 	[SerializeField] private float resetAgroDistance = 15f;
 	
 	private Transform agroTarget;
+
+	public override AIPath AI => ai;
 	
 	public void SetupAgroTarget(Transform target)
 	{
@@ -31,14 +33,14 @@ public class AgroBehaviour : AIBehaviour
 		}
 		else
 		{
-			ai.destination = agroTarget.position;
+			AI.destination = agroTarget.position;
 		}
 	}
-
+	
 	protected override void OnBehaviourEnabled()
 	{
-		ai.destination = agroTarget.position;
-		ai.SearchPath();
+		AI.destination = agroTarget.position;
+		AI.SearchPath();
 	}
 
 	protected override void OnBehaviourDisabled()

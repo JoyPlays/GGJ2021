@@ -12,6 +12,8 @@ public class PatrolBehaviour : AIBehaviour
 	private int pointIndex = 0;
 	private float nextPointTime = float.PositiveInfinity;
 	
+	public override AIPath AI => ai;
+	
 	private void Update()
 	{
 		if (patrolPoints.Length == 0 || !Enabled)
@@ -21,7 +23,7 @@ public class PatrolBehaviour : AIBehaviour
 
 		bool search = false;
 		
-		if (ai.reachedEndOfPath && !ai.pathPending && float.IsPositiveInfinity(nextPointTime))
+		if (AI.reachedEndOfPath && !AI.pathPending && float.IsPositiveInfinity(nextPointTime))
 		{
 			nextPointTime = Time.time + delay;
 		}
@@ -43,7 +45,7 @@ public class PatrolBehaviour : AIBehaviour
 	
 	private void SetDestination(bool search)
 	{
-		ai.destination = patrolPoints[pointIndex].position;
+		AI.destination = patrolPoints[pointIndex].position;
 
 		if (search)
 		{
@@ -58,7 +60,7 @@ public class PatrolBehaviour : AIBehaviour
 	
 	protected override void OnBehaviourDisabled()
 	{
-		ai.SetPath(null);
-		ai.destination = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+		AI.SetPath(null);
+		AI.destination = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
 	}
 }

@@ -6,12 +6,15 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+	[SerializeField] private Animator animator;
 	[SerializeField] private AIBehaviour aiBehaviour;
 	[SerializeField] private AgroBehaviour agroBehaviour;
 
 	[SerializeField] private float agroRadius = 5f;
 
 	[SerializeField] private LayerMask agroLayerMask;
+
+	public bool IsMoving { get; set; } = false;
 
 	private void Start()
 	{
@@ -20,6 +23,9 @@ public class EnemyAI : MonoBehaviour
 
 	private void Update()
 	{
+		bool isMoving = aiBehaviour.GetSpeedPercent() > 0.1f;
+		animator.SetBool("isRunning", isMoving);
+		
 		if (!agroBehaviour.Enabled)
 		{
 			Collider[] agroResult = new Collider[10];
