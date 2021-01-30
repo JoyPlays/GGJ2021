@@ -54,7 +54,7 @@ MonoBehaviour:
     m_Bits: 1
   camera: {fileID: 0}
   animator: {fileID: 4806935174635586037}
-  movementSpeed: 10
+  movementSpeed: 9
   boxCastDistance: 1
   sphereCastOffset: {x: 0, y: 1, z: 0}
 --- !u!136 &4806935173851758037
@@ -128,6 +128,7 @@ MonoBehaviour:
   colSize: 5
   rowSize: 5
   itemBeingDragged: 0
+  canvas: {fileID: 0}
   invSlotPrefab: {fileID: 3593845029567790964, guid: 07727e21cd2da4347ae29b43780317f5, type: 3}
   itemIconPrefab: {fileID: 4112061016027541288, guid: d37b0e6bbe0ca0a4f80b038e03cad9e8, type: 3}
   item3DPrefab: {fileID: 5397244290354196551, guid: de28f5dc3263d1a438dd73fa2898e4fe, type: 3}
