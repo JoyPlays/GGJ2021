@@ -88,7 +88,7 @@ public class AgroBehaviour : AIBehaviour
 			bool hitSomething = Physics.Raycast(shootRay, out hit, 15f);
 			Debug.DrawRay(shootPoint.position, shootDirection * 15f, Color.red);
 
-			Vector3 projectileEndPos = shootPoint.position + (shootDirection * 15f);
+			Vector3 projectileEndPos = shootPoint.position + (shootDirection * 50f);
 			if (hitSomething)
 			{
 				if (hit.transform.gameObject.layer == 11)
@@ -115,13 +115,14 @@ public class AgroBehaviour : AIBehaviour
 		GameObject projectile = fakeProjectilePool[projectileIndex].gameObject;
 		projectile.transform.position = startPoint.position;
 		projectile.SetActive(true);
-		
+
+		float dist = Vector3.Distance(startPoint.position, endPos);
 
 		float t = 0f;
 
 		while (t < 1f)
 		{
-			t += Time.deltaTime / 0.1f;
+			t += Time.deltaTime / (0.01f * dist);
 
 			projectile.transform.position = Vector3.Lerp(startPoint.position, endPos, t);
 			
