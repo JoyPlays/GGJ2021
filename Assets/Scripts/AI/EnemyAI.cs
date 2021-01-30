@@ -17,6 +17,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
 	public bool IsMoving { get; set; } = false;
 	public HealthController HealthController => healthController;
 
+	public Animator Animator => animator;
+
 	private void Start()
 	{
 		agroBehaviour.Enabled = false;
@@ -30,7 +32,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
 		}
 		
 		bool isMoving = aiBehaviour.GetSpeedPercent() > 0.1f;
-		animator.SetBool("isRunning", isMoving);
+		Animator.SetBool("isRunning", isMoving);
 		
 		if (!agroBehaviour.Enabled && healthController.Alive)
 		{
@@ -83,7 +85,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
 		ai.destination = transform.position;
 		agroBehaviour.Enabled = false;
 		aiBehaviour.Enabled = false;
-		animator.SetTrigger("Death");
+		Animator.SetTrigger("Death");
 	}
 }
 

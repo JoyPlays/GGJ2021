@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4465033950066383577}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.51, y: 0, z: -8.38}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4465033950190201282}
   - {fileID: 4465033950403290011}
@@ -191,7 +191,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ai: {fileID: 4465033950066383582}
   enemyAI: {fileID: 4465033950190201287}
+  shootPoint: {fileID: 2912650577050164082}
+  fakeProjectile: {fileID: 3363988871368293359, guid: 2fa97f966d4e01844964bad05576ea98, type: 3}
   resetAgroDistance: 30
+  shootRange: 20
+  speedWhenShooting: 2
+  delayBetweenShots: 2
 --- !u!114 &4465033950190201281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3904,6 +3909,36 @@ Transform:
   m_Children:
   - {fileID: 4465033950403288035}
   m_Father: {fileID: 4465033950403342233}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7688928401170100019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2912650577050164082}
+  m_Layer: 0
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2912650577050164082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7688928401170100019}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.008, y: 0.165, z: 1.364}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4896003973423088472}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4896003973423542216
