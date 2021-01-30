@@ -9,12 +9,17 @@ public class Inventory : MonoBehaviour
 
     public int[,] inv;
 
-    [SerializeField] float gridCellSize = 0;
+    [SerializeField] GameObject invSlotPrefab = null;
+    [SerializeField] GameObject itemIconPrefab = null;
+    [SerializeField] GameObject item3DPrefab = null;
 
+    [SerializeField] float gridCellSize = 0;
     [SerializeField] GameObject gridPanel = null;
-    [SerializeField] RectTransform gridChildTransform = null;
     [SerializeField] GridLayoutGroup gridLayoutGroup = null;
 
+    [SerializeField] RectTransform discardPanel = null;
+
+    private int itemID = 1;
     private List<Image> invImages = new List<Image>();
 
     private void Awake()
@@ -61,7 +66,7 @@ public class Inventory : MonoBehaviour
                         if (x + nextX >= colSize || y + nextY >= rowSize || inv[x + nextX, y + nextY] != 0)
                         {
                             foundPlaceForItem = false;
-                            if (checkIfRotated == 0 && newSizeX != newSizeY)
+                            if (checkIfRotated == 0 && newSizeX != newSizeY) // MAKE MORE PERFORMANT
                             {
                                 checkIfRotated++;
                             }
@@ -80,13 +85,11 @@ public class Inventory : MonoBehaviour
                 {
                     for (int z = 0; z < freeX.Count; z++)
                     {
-                        inv[freeX[z], freeY[z]] = 1;
+                        inv[freeX[z], freeY[z]] = itemID;
                     }
 
                     int firstIndex = freeX[0] + freeY[0] + ((colSize - 1) * freeY[0]);
                     int lastIndex = freeX[freeX.Count - 1] + freeY[freeX.Count - 1] + ((colSize - 1) * freeY[freeX.Count - 1]);
-
-                    
 
                     float centerX = invImages[lastIndex].rectTransform.anchoredPosition.x
                                   - invImages[firstIndex].rectTransform.anchoredPosition.x;
@@ -112,7 +115,7 @@ public class Inventory : MonoBehaviour
                         centerY -= gridCellSize * freeY[0];
                     }
 
-                    PlaceItemImage(centerX, centerY, newSizeX, newSizeY, item);
+                    PlaceItemImage(centerX, centerY, newSizeX, newSizeY, item, itemID);
 
                     return;
                 }
@@ -136,18 +139,44 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void PlaceItemImage (float xPos, float yPos, int newSizeX, int newSizeY,  Item item) // 0 - no rotation, 2 - rotated
+    public void RemoveItemFromInventory (int itemID, Item item) 
     {
-        GameObject imgObject = new GameObject(item.name);
+        for (int x = 0; x < colSize; x++)
+        {
+            for (int y = 0; y < rowSize; y++)
+            {
+                if (inv[x, y] == itemID)
+                {
+                    inv[x, y] = 0;
+                }
+            }
+        }
 
-        RectTransform trans = imgObject.AddComponent<RectTransform>();
-        trans.transform.SetParent(gridPanel.transform);
-        trans.localScale = Vector3.one;
-        trans.anchorMin = new Vector2(0f, 1f);
-        trans.anchorMax = new Vector2(0f, 1f);
+        CreateItemObjectIn3D(item);
+    }
+
+    private void CreateItemObjectIn3D (Item item) 
+    {
+        GameObject item3D = Instantiate(item3DPrefab);
+
+        item3D.GetComponent<ItemDisplay>().item = item;
+    }
+
+    private void PlaceItemImage (float xPos, float yPos, int newSizeX, int newSizeY, Item item, int newItemID)
+    {
+        GameObject itemIcon = Instantiate(itemIconPrefab, gridPanel.transform);
+
+        RectTransform trans = itemIcon.GetComponent<RectTransform>();
         trans.anchoredPosition = new Vector2(xPos, yPos);
+        
+        Image image = itemIcon.GetComponent<Image>();
 
-        Image image = imgObject.AddComponent<Image>();
+        InventoryItem invItem = itemIcon.GetComponent<InventoryItem>();
+        invItem.inv = this;
+        invItem.discardPanel = discardPanel;
+        invItem.item = item;
+        invItem.itemID = newItemID;
+        itemID++;
 
         if (newSizeX != item.sizeX && newSizeY != item.sizeY)
         {
@@ -165,7 +194,6 @@ public class Inventory : MonoBehaviour
         }
 
         image.SetNativeSize();
-
     }
 
     private void CreateInventorySlots () 
@@ -175,16 +203,9 @@ public class Inventory : MonoBehaviour
 
         for (int x = 0; x < rowSize * colSize; x++)
         {
-            GameObject imgObject = new GameObject("Slot-" + x);
+            GameObject newImage = Instantiate(invSlotPrefab, gridLayoutGroup.transform);
 
-            RectTransform trans = imgObject.AddComponent<RectTransform>();
-            trans.transform.SetParent(gridLayoutGroup.transform);
-            trans.localScale = Vector3.one;
-            trans.anchoredPosition = new Vector2(0f, 0f);
-
-            Image image = imgObject.AddComponent<Image>();
-
-            invImages.Add(image);
+            invImages.Add(newImage.GetComponent<Image>());
         }
     }
 }
