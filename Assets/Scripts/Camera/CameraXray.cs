@@ -34,6 +34,11 @@ public class CameraXray : MonoBehaviour
 
             MeshRenderer meshRenderer = item.transform.gameObject.GetComponent<MeshRenderer>();
 
+            if (!meshRenderer)
+            {
+                continue;
+            }
+
             gatheredMeshRenderers.Add(meshRenderer);
 
             meshRenderer.material = transparent;

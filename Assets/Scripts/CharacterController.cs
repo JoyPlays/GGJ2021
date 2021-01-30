@@ -75,12 +75,7 @@ public class CharacterController : MonoBehaviour
             nextPosition = transform.position - (Time.deltaTime * finalSpeed) * transform.forward;
         }
 
-        Collider[] colliders = Physics.OverlapSphere(nextPosition + sphereCastOffset, 0.5f, wallLayer);
-
-        foreach (var item in colliders)
-        {
-            Debug.Log(item.name);
-        }
+        Collider[] colliders = Physics.OverlapSphere(nextPosition + sphereCastOffset, 0.5f, wallLayer, QueryTriggerInteraction.Ignore);
 
         if (colliders.Length <= 0)
         {
@@ -98,7 +93,7 @@ public class CharacterController : MonoBehaviour
             nextPosition = transform.position - (Time.deltaTime * finalSpeed) * transform.right;
         }
 
-        colliders = Physics.OverlapSphere(nextPosition + sphereCastOffset, 0.5f, wallLayer);
+        colliders = Physics.OverlapSphere(nextPosition + sphereCastOffset, 0.5f, wallLayer, QueryTriggerInteraction.Ignore);
 
         if (colliders.Length <= 0)
         {
@@ -106,7 +101,5 @@ public class CharacterController : MonoBehaviour
         }
 
         animator.SetBool("isRunning", isRunning);
-
-
     }
 }
