@@ -24,14 +24,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2305446600215114719}
-  m_LocalRotation: {x: 0.47298655, y: -0.20079622, z: 0.111656964, w: 0.8505865}
+  m_LocalRotation: {x: 0.47298405, y: -0.20079619, z: 0.111656174, w: 0.85058796}
   m_LocalPosition: {x: 18, y: 18, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2305446600605151963}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 58.154, y: -26.565, z: 0}
 --- !u!114 &2305446600215114716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54,8 +54,8 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 20
-    NearClipPlane: 0.3
+    OrthographicSize: 12
+    NearClipPlane: 0.001
     FarClipPlane: 1000
     Dutch: 0
     LensShift: {x: 0, y: 0}
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 0
-  m_FollowOffset: {x: 5, y: 18, z: -10}
+  m_FollowOffset: {x: 40, y: 40, z: 40}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
