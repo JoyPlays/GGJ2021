@@ -93,7 +93,8 @@ public class AgroBehaviour : AIBehaviour
 			{
 				if (hit.transform.gameObject.layer == 11)
 				{
-					Debug.Log("GOT PLAYER SHOT");
+					IDamageable damageable = hit.transform.gameObject.GetComponent<IDamageable>();
+					damageable.TakeDamage(10f);
 				}
 				projectileEndPos = hit.point;
 			}
@@ -122,7 +123,7 @@ public class AgroBehaviour : AIBehaviour
 
 		while (t < 1f)
 		{
-			t += Time.deltaTime / (0.01f * dist);
+			t += Time.deltaTime / (0.01f *  dist);
 
 			projectile.transform.position = Vector3.Lerp(startPoint.position, endPos, t);
 			

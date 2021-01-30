@@ -10,6 +10,7 @@ public class CharacterController : MonoBehaviour
     [Header("Components")]
     [SerializeField] private new Camera camera;
     [SerializeField] private Animator animator;
+    [SerializeField] private HealthController healthController;
 
     [Header("Params")]
     [SerializeField] private float movementSpeed = 1f;
@@ -27,6 +28,10 @@ public class CharacterController : MonoBehaviour
 
     void Update()
     {
+		if (healthController && !healthController.Alive)
+		{
+			return;
+		}
         Movement();
     }
 

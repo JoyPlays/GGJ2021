@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 824384471}
   - component: {fileID: 2875893115441076662}
   - component: {fileID: 824384469}
+  - component: {fileID: 3449363519236673807}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
@@ -54,6 +55,7 @@ MonoBehaviour:
     m_Bits: 1
   camera: {fileID: 0}
   animator: {fileID: 4806935174635586037}
+  healthController: {fileID: 3449363519236673807}
   movementSpeed: 9
   boxCastDistance: 1
   sphereCastOffset: {x: 0, y: 1, z: 0}
@@ -113,6 +115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inv: {fileID: 824384469}
+  animator: {fileID: 4806935174635586037}
+  healthController: {fileID: 3449363519236673807}
 --- !u!114 &824384469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +140,20 @@ MonoBehaviour:
   inventoryPanel: {fileID: 0}
   gridLayoutGroup: {fileID: 0}
   discardPanel: {fileID: 0}
+--- !u!114 &3449363519236673807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4806935173851758025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ee9fedab5e4f041a06a591f693ee0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  health: 0
 --- !u!1001 &4806935174643047643
 PrefabInstance:
   m_ObjectHideFlags: 0

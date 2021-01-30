@@ -42,6 +42,7 @@ public class HealthController : MonoBehaviour
 
 		if (Health <= 0f)
 		{
+			Alive = false;
 			owner.Die();
 		}
 	}
