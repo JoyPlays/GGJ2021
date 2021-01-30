@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 4465033950190201287}
   - component: {fileID: 4465033950190201280}
   - component: {fileID: 4465033950190201281}
+  - component: {fileID: 8430630919323817147}
   m_Layer: 12
   m_Name: Behaviours
   m_TagString: Untagged
@@ -168,8 +169,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4465033950394164933}
+  ai: {fileID: 4465033950066383582}
   aiBehaviour: {fileID: 4465033950190201281}
   agroBehaviour: {fileID: 4465033950190201280}
+  healthController: {fileID: 8430630919323817147}
   agroRadius: 5
   agroLayerMask:
     serializedVersion: 2
@@ -208,6 +211,20 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   delay: 0.75
+--- !u!114 &8430630919323817147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4465033950190201283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ee9fedab5e4f041a06a591f693ee0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  health: 0
 --- !u!1001 &4465033950403728293
 PrefabInstance:
   m_ObjectHideFlags: 0
