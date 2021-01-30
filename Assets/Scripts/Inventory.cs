@@ -7,14 +7,19 @@ public class Inventory : MonoBehaviour
     public int colSize = 0;
     public int rowSize = 0;
 
+    [HideInInspector]
+    public bool itemBeingDragged = false;
+
     public int[,] inv;
+
+    [SerializeField] Canvas canvas = null;
 
     [SerializeField] GameObject invSlotPrefab = null;
     [SerializeField] GameObject itemIconPrefab = null;
     [SerializeField] GameObject item3DPrefab = null;
 
     [SerializeField] float gridCellSize = 0;
-    [SerializeField] GameObject gridPanel = null;
+    [SerializeField] GameObject inventoryPanel = null;
     [SerializeField] GridLayoutGroup gridLayoutGroup = null;
 
     [SerializeField] RectTransform discardPanel = null;
@@ -24,7 +29,8 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        gridLayoutGroup.cellSize = new Vector2(gridCellSize, gridCellSize);
+        CreateInventorySlots();
+        canvas.enabled = false;
     }
 
     private void Start()
@@ -38,11 +44,24 @@ public class Inventory : MonoBehaviour
                 inv[x, y] = 0;
             }
         }
-
-        CreateInventorySlots();
     }
 
-    public void PlaceItemInInventory(Item item)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab)) 
+        {
+            if (canvas.isActiveAndEnabled)
+            {
+                canvas.enabled = false;
+            }
+            else 
+            {
+                canvas.enabled = true;
+            }
+        }   
+    }
+
+    public void PlaceItemInInventoryFromPickup(Item item)
     {
         List<int> freeX = new List<int>();
         List<int> freeY = new List<int>();
@@ -139,7 +158,13 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void RemoveItemFromInventory (int itemID, Item item) 
+    public void DiscardItemFromInventory (int itemID, Item item) 
+    {
+        RemoveItemFromInventory(itemID);
+        CreateItemObjectIn3D(item);
+    }
+
+    public void RemoveItemFromInventory (int itemID) 
     {
         for (int x = 0; x < colSize; x++)
         {
@@ -151,20 +176,18 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-
-        CreateItemObjectIn3D(item);
     }
 
     private void CreateItemObjectIn3D (Item item) 
     {
-        GameObject item3D = Instantiate(item3DPrefab);
+        GameObject item3D = Instantiate(item3DPrefab, gameObject.transform.position, Quaternion.identity);
 
         item3D.GetComponent<ItemDisplay>().item = item;
     }
 
     private void PlaceItemImage (float xPos, float yPos, int newSizeX, int newSizeY, Item item, int newItemID)
     {
-        GameObject itemIcon = Instantiate(itemIconPrefab, gridPanel.transform);
+        GameObject itemIcon = Instantiate(itemIconPrefab, inventoryPanel.transform);
 
         RectTransform trans = itemIcon.GetComponent<RectTransform>();
         trans.anchoredPosition = new Vector2(xPos, yPos);
@@ -184,15 +207,11 @@ public class Inventory : MonoBehaviour
             item.sprite = item.rotatedSprite;
             item.rotatedSprite = tempSprite;
 
-            image.sprite = item.sprite;
-
             item.sizeX = newSizeX;
             item.sizeY = newSizeY;
-        }else
-        {
-            image.sprite = item.sprite;
         }
 
+        image.sprite = item.sprite;
         image.SetNativeSize();
     }
 
@@ -200,10 +219,13 @@ public class Inventory : MonoBehaviour
     {
         gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         gridLayoutGroup.constraintCount = colSize;
+        gridLayoutGroup.cellSize = new Vector2(gridCellSize, gridCellSize);
 
         for (int x = 0; x < rowSize * colSize; x++)
         {
             GameObject newImage = Instantiate(invSlotPrefab, gridLayoutGroup.transform);
+
+            newImage.GetComponent<InventorySlot>().inv = this;
 
             invImages.Add(newImage.GetComponent<Image>());
         }

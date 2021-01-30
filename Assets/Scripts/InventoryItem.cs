@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,33 +14,79 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     [SerializeField] Image image = null;
 
-    private Vector3 startLocation = Vector3.zero;
-    private Color startColor = Color.white;
+    private bool thisItemBeingDragged = false;
 
-    private Color dragging = Color.red;
+    private int startItemX = 0, startItemY = 0;
+    private Vector3 startLocation = Vector3.zero;
+    private Color startColor;
+
+    private Color dragging = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+
+    private void Start () 
+    {
+        startItemX = item.sizeX;
+        startItemY = item.sizeY;
+        startColor = image.color;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && thisItemBeingDragged)
+        {
+            RotateItem();
+        }
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;       
+        transform.position = Input.mousePosition;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         startLocation = transform.position;
         image.color = dragging;
+
+        inv.itemBeingDragged = true;
+        thisItemBeingDragged = true;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         if (MouseOverDiscard()) 
         {
-            inv.RemoveItemFromInventory(itemID, item);
+            inv.DiscardItemFromInventory(itemID, item);
             Destroy(gameObject);
         }else 
         {
+            // Color the images depending on item size, green - good loc, red - bad loc
+            // else if the item is in new viable location, change the items location in the inventory
+            // RemoveItem (itemID)
+            // PlaceItem (Item, itemID)
             transform.position = startLocation;
             image.color = startColor;
+
+            if (item.sizeX != startItemX && item.sizeY != startItemY)
+            {
+                RotateItem();
+            }        
         }
+
+        inv.itemBeingDragged = false;
+    }
+
+    private void RotateItem ()
+    {
+        Sprite tempSprite = item.sprite;
+        item.sprite = item.rotatedSprite;
+        item.rotatedSprite = tempSprite;
+
+        int tempSizeX = item.sizeX;
+        item.sizeX = item.sizeY;
+        item.sizeY = tempSizeX;
+
+        image.sprite = item.sprite;
+        image.SetNativeSize();
     }
 
     private bool MouseOverDiscard()
