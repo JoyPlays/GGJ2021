@@ -13,7 +13,6 @@ public class CharacterController : MonoBehaviour
 
     [Header("Params")]
     [SerializeField] private float movementSpeed = 1f;
-    [SerializeField] private float sideSpeed = 1f;
     [SerializeField] private float boxCastDistance = 1f;
     [SerializeField] private Vector3 boxCastSize = Vector3.one;
     [SerializeField] private Vector3 boxCastOffset = Vector3.up;
@@ -59,12 +58,12 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             isRunning = true;
-            nextPosition = transform.position + (Time.deltaTime * finalSpeed) * transform.forward;
+            nextPosition = transform.position + (Time.deltaTime * finalSpeed) * Vector3.forward;
         }
         else if (Input.GetKey(KeyCode.S))
         {
             isRunning = true;
-            nextPosition = transform.position - (Time.deltaTime * finalSpeed) * transform.forward;
+            nextPosition = transform.position - (Time.deltaTime * finalSpeed) * Vector3.forward;
         }
 
         if (!Physics.BoxCast(nextPosition + boxCastOffset, boxCastSize, Vector3.forward, Quaternion.identity, boxCastDistance, wallLayer))
@@ -75,12 +74,12 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             isRunning = true;
-            nextPosition = transform.position + (Time.deltaTime * sideSpeed) * transform.right;
+            nextPosition = transform.position + (Time.deltaTime * finalSpeed) * Vector3.right;
         }
         else if (Input.GetKey(KeyCode.A))
         {
             isRunning = true;
-            nextPosition = transform.position - (Time.deltaTime * sideSpeed) * transform.right;
+            nextPosition = transform.position - (Time.deltaTime * finalSpeed) * Vector3.right;
         }
 
         if (!Physics.BoxCast(nextPosition + boxCastOffset, boxCastSize, Vector3.forward, Quaternion.identity, boxCastDistance, wallLayer))
