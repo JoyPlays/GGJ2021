@@ -40,6 +40,8 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = Input.mousePosition;
+
+        inv.SelectHoveringImages();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -47,7 +49,6 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         startLocation = transform.position;
         image.color = dragging;
 
-        inv.itemBeingDragged = true;
         thisItemBeingDragged = true;
     }
 
@@ -72,7 +73,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             }        
         }
 
-        inv.itemBeingDragged = false;
+        inv.ResetAllSelectedImages();
     }
 
     private void RotateItem ()

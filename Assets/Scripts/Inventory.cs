@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
     public int colSize = 0;
     public int rowSize = 0;
-
-    [HideInInspector]
-    public bool itemBeingDragged = false;
 
     public int[,] inv;
 
@@ -105,6 +103,7 @@ public class Inventory : MonoBehaviour
                     for (int z = 0; z < freeX.Count; z++)
                     {
                         inv[freeX[z], freeY[z]] = itemID;
+                        invImages[freeX[z] + freeY[z] + ((colSize - 1) * freeY[z])].GetComponent<InventorySlot>().isEmpty = false;
                     }
 
                     int firstIndex = freeX[0] + freeY[0] + ((colSize - 1) * freeY[0]);
@@ -175,6 +174,44 @@ public class Inventory : MonoBehaviour
                     inv[x, y] = 0;
                 }
             }
+        }
+    }
+
+    public void SelectHoveringImages () 
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        for (int x = 0; x < results.Count; x++)
+        {
+            InventorySlot invSlot = results[x].gameObject.GetComponent<InventorySlot>();
+
+            if (invSlot)
+            {
+                for (int y = 0; y < invImages.Count; y++) 
+                {
+                    InventorySlot currentInvSlot = invImages[y].GetComponent<InventorySlot>();
+
+                    if (invSlot == currentInvSlot) 
+                    {
+                        currentInvSlot.ObjectOverInventorySlot();
+                    }else 
+                    {
+                        currentInvSlot.ObjectNotOverInventorySlot();
+                    }
+                }
+            }
+        }
+    }
+
+    public void ResetAllSelectedImages () 
+    {
+        for (int x = 0; x < invImages.Count; x++)
+        {
+            InventorySlot currentInvSlot = invImages[x].GetComponent<InventorySlot>();
+            currentInvSlot.ObjectNotOverInventorySlot();
         }
     }
 
