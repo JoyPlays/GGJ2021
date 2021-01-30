@@ -29,8 +29,7 @@ public class CharacterController : MonoBehaviour
     {
         Movement();
     }
-
-    private void Movement()
+        private void Movement()
     {
         float finalSpeed = movementSpeed;
 
@@ -57,12 +56,12 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             isRunning = true;
-            nextPosition = transform.position + (Time.deltaTime * finalSpeed) * Vector3.forward;
+            nextPosition = transform.position + (Time.deltaTime * finalSpeed) * transform.forward;
         }
         else if (Input.GetKey(KeyCode.S))
         {
             isRunning = true;
-            nextPosition = transform.position - (Time.deltaTime * finalSpeed) * Vector3.forward;
+            nextPosition = transform.position - (Time.deltaTime * finalSpeed) * transform.forward;
         }
 
         Collider[] colliders = Physics.OverlapSphere(nextPosition + sphereCastOffset, 0.5f, wallLayer);
@@ -80,12 +79,12 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             isRunning = true;
-            nextPosition = transform.position + (Time.deltaTime * finalSpeed) * Vector3.right;
+            nextPosition = transform.position + (Time.deltaTime * finalSpeed) * transform.right;
         }
         else if (Input.GetKey(KeyCode.A))
         {
             isRunning = true;
-            nextPosition = transform.position - (Time.deltaTime * finalSpeed) * Vector3.right;
+            nextPosition = transform.position - (Time.deltaTime * finalSpeed) * transform.right;
         }
 
         colliders = Physics.OverlapSphere(nextPosition + sphereCastOffset, 0.5f, wallLayer);
