@@ -32,7 +32,8 @@ public class Player : MonoBehaviour
                         if (itemInRange[x] == clickedObjDisplay)
                         {
                             clickedObjDisplay.DisableMesh();
-                            inv.PlaceItemInInventory(clickedObjDisplay.item.sizeX, clickedObjDisplay.item.sizeY);
+                            inv.PlaceItemInInventory(clickedObjDisplay.item);
+
                             break;
                         }
                     }

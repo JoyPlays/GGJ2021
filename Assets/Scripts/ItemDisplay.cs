@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemDisplay : MonoBehaviour
 {
     public Item item;
 
-    [SerializeField] Collider coll = null;
-    [SerializeField] MeshFilter meshFilter = null;
+    [SerializeField] Collider itemMeshCollider = null;
+    [SerializeField] MeshFilter itemMeshFilter = null;
 
     void Start()
     {
@@ -16,12 +14,13 @@ public class ItemDisplay : MonoBehaviour
 
     public void EnableMesh()
     {
-        coll.enabled = true;
-        meshFilter.sharedMesh = item.worldObj;
+        itemMeshCollider.enabled = true;
+        itemMeshFilter.sharedMesh = item.worldObj;
     }
 
-    public void DisableMesh () {
-        coll.enabled = false;
-        meshFilter.sharedMesh = null;
+    public void DisableMesh () 
+    {
+        itemMeshCollider.enabled = false;
+        itemMeshFilter.sharedMesh = null;
     }
 }
