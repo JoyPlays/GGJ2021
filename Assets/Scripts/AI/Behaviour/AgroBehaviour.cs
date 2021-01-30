@@ -75,7 +75,7 @@ public class AgroBehaviour : AIBehaviour
 	{
 		ai.maxSpeed = speedWhenShooting;
 
-		enemyAI.Animator.SetTrigger("Shoot");
+		enemyAI.Animator.SetBool("Shoot", true);
 
 		Vector3 targetShootPos = agroTarget.position;
 		targetShootPos.y = 2.5f;
@@ -105,7 +105,7 @@ public class AgroBehaviour : AIBehaviour
 			
 			yield return new WaitForSeconds(0.333f);
 		}
-		
+		enemyAI.Animator.SetBool("Shoot", false);
 		canSHoot = true;
 		nextShotTime = Time.time + delayBetweenShots;
 	}
