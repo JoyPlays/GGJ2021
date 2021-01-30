@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraXray : MonoBehaviour
@@ -7,7 +8,7 @@ public class CameraXray : MonoBehaviour
     [SerializeField] private Transform character;
     [SerializeField] private LayerMask layerMask;
 
-    private MeshRenderer meshRenderer;
+    private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
 
     void Update()
     {
@@ -20,27 +21,20 @@ public class CameraXray : MonoBehaviour
 
         Vector3 direction = (character.position - transform.position).normalized;
 
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, characterDistance))
+        RaycastHit[] raycasts = Physics.RaycastAll(transform.position, direction, characterDistance);
+
+        List<MeshRenderer> gatheredMeshRenderers = new List<MeshRenderer>();
+
+        foreach (var item in raycasts)
         {
-            if (hit.collider.gameObject == character.gameObject)
+            if (item.transform.gameObject == character.gameObject)
             {
-                if (meshRenderer)
-                {
-                    meshRenderer.material = baseMaterial;
-                }
-
-                return;
+                continue;
             }
 
-            if (hit.transform.gameObject.GetComponent<MeshRenderer>() != meshRenderer)
-            {
-                if (meshRenderer)
-                {
-                    meshRenderer.material = baseMaterial;
-                }
+            MeshRenderer meshRenderer = item.transform.gameObject.GetComponent<MeshRenderer>();
 
-                meshRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
-            }
+            gatheredMeshRenderers.Add(meshRenderer);
 
             meshRenderer.material = transparent;
 
@@ -48,7 +42,17 @@ public class CameraXray : MonoBehaviour
 
             color.a = 0.25f;
 
-            hit.transform.gameObject.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", color);
+            meshRenderer.material.SetColor("_BaseColor", color);
         }
+
+        foreach (var item in meshRenderers)
+        {
+            if (!gatheredMeshRenderers.Contains(item))
+            {
+                item.material = baseMaterial;
+            }
+        }
+
+        meshRenderers = gatheredMeshRenderers;
     }
 }
