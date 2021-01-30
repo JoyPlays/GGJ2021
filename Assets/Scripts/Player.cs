@@ -87,6 +87,8 @@ public class Player : MonoBehaviour, IDamageable
 
 	public void Die()
 	{
+		animator.SetBool("Shoot", false);
+		animator.SetBool("isRunning", false);
 		animator.SetTrigger("Death");
 		_ = StartCoroutine(RestartSequence());
 	}

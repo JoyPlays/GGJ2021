@@ -11,11 +11,22 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private new Camera camera;
     [SerializeField] private Animator animator;
     [SerializeField] private HealthController healthController;
+	
+	[SerializeField] private Transform shootPoint;
+	[SerializeField] private GameObject fakeProjectile;
 
     [Header("Params")]
     [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float boxCastDistance = 1f;
     [SerializeField] private Vector3 sphereCastOffset = Vector3.up;
+	
+	[SerializeField] private float delayBetweenShots = 2f;
+	
+	
+	private GameObject[] fakeProjectilePool = new GameObject[20];
+	
+	private bool canSHoot = true;
+	private float nextShotTime;
 
     private float characterAngle = 0;
 
@@ -25,6 +36,18 @@ public class CharacterController : MonoBehaviour
 
         Gizmos.DrawLine(transform.position, transform.position + (transform.forward * 1));
     }
+	
+	private void Awake()
+	{
+		if (fakeProjectile)
+		{
+			for (int i = 0; i < fakeProjectilePool.Length; i++)
+			{
+				fakeProjectilePool[i] = Instantiate(fakeProjectile);
+				fakeProjectilePool[i].gameObject.SetActive(false);
+			}
+		}
+	}
 
     void Update()
     {
@@ -63,7 +86,12 @@ public class CharacterController : MonoBehaviour
         {
             animator.SetBool("Shoot", true);
             finalSpeed = movementSpeed / 2;
-        }
+			if (canSHoot && Time.time >= nextShotTime)
+			{
+				canSHoot = false;
+				Shooting();
+			}
+		}
         else if (Input.GetMouseButtonUp(0))
         {
             animator.SetBool("Shoot", false);
@@ -107,4 +135,72 @@ public class CharacterController : MonoBehaviour
 
         animator.SetBool("isRunning", isRunning);
     }
+
+	private void Shooting()
+	{
+		//Vector3 targetShootPos = transform.position + transform.forward;
+		//targetShootPos.y = 2.5f;
+		Vector3 shootDirection = transform.forward;
+		
+		RaycastHit hit;
+		Ray shootRay = new Ray(shootPoint.position, shootDirection);
+		bool hitSomething = Physics.Raycast(shootRay, out hit, 15f);
+		Debug.DrawRay(shootPoint.position, shootDirection * 15f, Color.blue);
+
+		Vector3 projectileEndPos = shootPoint.position + (shootDirection * 50f);
+		if (hitSomething)
+		{
+			if (hit.transform.gameObject.layer == 12)
+			{
+				IDamageable damageable = hit.transform.gameObject.GetComponent<IDamageable>();
+				damageable.TakeDamage(20f);
+			}
+			projectileEndPos = hit.point;
+		}
+
+		if (fakeProjectile)
+		{
+			_ = StartCoroutine(LaunchFakeProjectile(shootPoint, projectileEndPos));
+		}
+		
+		canSHoot = true;
+		nextShotTime = Time.time + delayBetweenShots;
+	}
+	
+	private IEnumerator LaunchFakeProjectile(Transform startPoint, Vector3 endPos)
+	{
+		GameObject projectile = null;
+
+		for (int i = 0; i < fakeProjectilePool.Length; i++)
+		{
+			if (!fakeProjectilePool[i].activeInHierarchy)
+			{
+				projectile = fakeProjectilePool[i];
+				break;
+			}
+		}
+
+		if (!projectile)
+		{
+			projectile = fakeProjectilePool[0];
+		}
+		
+		projectile.transform.position = startPoint.position;
+		projectile.SetActive(true);
+
+		float dist = Vector3.Distance(startPoint.position, endPos);
+
+		float t = 0f;
+
+		while (t < 1f)
+		{
+			t += Time.deltaTime / (0.01f *  dist);
+
+			projectile.transform.position = Vector3.Lerp(startPoint.position, endPos, t);
+			
+			yield return null;
+		}
+		
+		projectile.SetActive(false);
+	}
 }

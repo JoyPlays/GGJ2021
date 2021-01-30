@@ -56,9 +56,12 @@ MonoBehaviour:
   camera: {fileID: 0}
   animator: {fileID: 4806935174635586037}
   healthController: {fileID: 3449363519236673807}
+  shootPoint: {fileID: 1128148504617101097}
+  fakeProjectile: {fileID: 3363988871368293359, guid: 2fa97f966d4e01844964bad05576ea98, type: 3}
   movementSpeed: 9
   boxCastDistance: 1
   sphereCastOffset: {x: 0, y: 1, z: 0}
+  delayBetweenShots: 0.5
 --- !u!136 &4806935173851758037
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -503,5 +506,10 @@ Transform:
 --- !u!95 &4806935174635586037 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9559342, guid: cf78ac9b09f3f284f8988b9e77af54bb, type: 3}
+  m_PrefabInstance: {fileID: 4806935174643047643}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1128148504617101097 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5553596968438791154, guid: cf78ac9b09f3f284f8988b9e77af54bb, type: 3}
   m_PrefabInstance: {fileID: 4806935174643047643}
   m_PrefabAsset: {fileID: 0}

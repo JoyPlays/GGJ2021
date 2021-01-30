@@ -26,11 +26,6 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			TakeDamage(50f);
-		}
-		
 		bool isMoving = aiBehaviour.GetSpeedPercent() > 0.1f;
 		Animator.SetBool("isRunning", isMoving);
 		

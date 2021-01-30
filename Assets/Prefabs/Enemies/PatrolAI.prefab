@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 4465033950190201280}
   - component: {fileID: 4465033950190201281}
   - component: {fileID: 8430630919323817147}
+  - component: {fileID: 4001735282296942345}
   m_Layer: 12
   m_Name: Behaviours
   m_TagString: Untagged
@@ -230,6 +231,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startHealth: 100
   health: 0
+--- !u!136 &4001735282296942345
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4465033950190201283}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &4465033950403533075
 GameObject:
   m_ObjectHideFlags: 0
