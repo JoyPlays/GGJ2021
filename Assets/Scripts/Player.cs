@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -23,21 +23,24 @@ public class Player : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 1000, layerMask))
             {
-                ItemDisplay clickedObjDisplay = hit.transform.gameObject.GetComponent<ItemDisplay>();
-
-                if (clickedObjDisplay)
+                if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    for (int x = 0; x < itemInRange.Count; x++)
+                    ItemDisplay clickedObjDisplay = hit.transform.gameObject.GetComponent<ItemDisplay>();
+
+                    if (clickedObjDisplay)
                     {
-                        if (itemInRange[x] == clickedObjDisplay)
+                        for (int x = 0; x < itemInRange.Count; x++)
                         {
-                            clickedObjDisplay.DisableMesh();
-                            inv.PlaceItemInInventory(clickedObjDisplay.item);
-                            
-                            break;
+                            if (itemInRange[x] == clickedObjDisplay)
+                            {
+                                clickedObjDisplay.DisableMesh();
+                                inv.PlaceItemInInventoryFromPickup(clickedObjDisplay.item);
+
+                                break;
+                            }
                         }
                     }
-                }
+                }     
             }
         }
     }
