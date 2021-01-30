@@ -44,7 +44,7 @@ public class Player : MonoBehaviour, IDamageable
                         {
                             if (itemInRange[x] == clickedObjDisplay)
                             {
-                                clickedObjDisplay.DisableMesh();
+                                clickedObjDisplay.DisableObject();
                                 inv.PlaceItemInInventoryFromPickup(clickedObjDisplay.item);
 
                                 break;

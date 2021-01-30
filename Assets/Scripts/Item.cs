@@ -23,5 +23,4 @@ public class Item : ScriptableObject
 
     public Sprite rotatedSprite;
     public Sprite sprite;
-    public Mesh worldObj;
 }

@@ -2,25 +2,27 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class InventorySlot : MonoBehaviour
 {
     public Inventory inv = null;
+    public bool isEmpty = true;
 
     [SerializeField] Image image = null; 
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void ObjectOverInventorySlot () 
     {
-        if (inv.itemBeingDragged) 
+        if (isEmpty)
         {
-            image.color = new Color(1f, 0f, 0f, 0.5f);
+            image.color = new Color(0f, 1f, 0f, 1f);
+        }
+        else
+        {
+            image.color = new Color(1f, 0f, 0f, 1f);
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void ObjectNotOverInventorySlot()
     {
-        if (inv.itemBeingDragged)
-        {
-            image.color = new Color(255f, 255f, 255f, 1f);
-        }
+        image.color = new Color(255f, 255f, 255f, 1f);
     }
 }

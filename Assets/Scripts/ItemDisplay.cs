@@ -7,20 +7,8 @@ public class ItemDisplay : MonoBehaviour
     [SerializeField] Collider itemMeshCollider = null;
     [SerializeField] MeshFilter itemMeshFilter = null;
 
-    void Start()
+    public void DisableObject () 
     {
-        EnableMesh();
-    }
-
-    public void EnableMesh()
-    {
-        itemMeshCollider.enabled = true;
-        itemMeshFilter.sharedMesh = item.worldObj;
-    }
-
-    public void DisableMesh () 
-    {
-        itemMeshCollider.enabled = false;
-        itemMeshFilter.sharedMesh = null;
+        gameObject.SetActive(false);
     }
 }
