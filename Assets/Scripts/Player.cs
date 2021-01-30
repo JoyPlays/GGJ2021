@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
                         {
                             clickedObjDisplay.DisableMesh();
                             inv.PlaceItemInInventory(clickedObjDisplay.item);
-
+                            
                             break;
                         }
                     }

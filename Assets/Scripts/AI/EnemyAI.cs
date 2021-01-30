@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
 		bool isMoving = aiBehaviour.GetSpeedPercent() > 0.1f;
 		animator.SetBool("isRunning", isMoving);
 		
-		if (!agroBehaviour.Enabled)
+		if (!agroBehaviour.Enabled && healthController.Alive)
 		{
 			Collider[] agroResult = new Collider[10];
 			Physics.OverlapSphereNonAlloc(transform.position, agroRadius, agroResult, agroLayerMask);
@@ -58,8 +58,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
 	private void OnDrawGizmos()
 	{
 		Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
-		Gizmos.color = new Color(0.75f, 0, 0, 0.3f);
-		Gizmos.DrawSphere(Vector3.zero, agroRadius);
+		Gizmos.color = new Color(0.75f, 0, 0, 0.1f);
+		Gizmos.DrawSphere(Vector3.zero, agroRadius / 2);
 	}
 
 	
