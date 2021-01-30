@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af5b2efd056dcf4e86167b7f8949ca1, type: 3}
   m_Name: 2x1_Example
   m_EditorClassIdentifier: 
-  itemType: 0
+  itemType: 4
   name: MP-153
   desc: 
   value: 0

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8af5b2efd056dcf4e86167b7f8949ca1, type: 3}
-  m_Name: 1x2_Example
+  m_Name: Tushonka
   m_EditorClassIdentifier: 
-  itemType: 0
-  name: MP-153
-  desc: 
-  value: 0
+  itemType: 4
+  name: Tushonka
+  desc: Such a delicious soup!
+  value: 50
   sizeX: 1
-  sizeY: 2
-  rotatedSprite: {fileID: 21300000, guid: 532813da7bb77104e8c1d25326f112dd, type: 3}
-  sprite: {fileID: 21300000, guid: 0b208ef289e2a2e479eef405252aa2fc, type: 3}
+  sizeY: 1
+  rotatedSprite: {fileID: 21300000, guid: bb4b90911bbe2f54c9dc8e785b461a09, type: 3}
+  sprite: {fileID: 21300000, guid: bb4b90911bbe2f54c9dc8e785b461a09, type: 3}
   worldObj: {fileID: 4300000, guid: 431bc6bbb7436aa4b9390194982f29ff, type: 3}
