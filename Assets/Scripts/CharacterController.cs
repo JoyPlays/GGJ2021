@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    [Header("Layers")]
+    [SerializeField] private LayerMask wallLayer;
+
     [Header("Components")]
     [SerializeField] private new Camera camera;
     [SerializeField] private Animator animator;
@@ -11,7 +14,9 @@ public class CharacterController : MonoBehaviour
     [Header("Params")]
     [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float sideSpeed = 1f;
-    [SerializeField] private float rotationSpeed = 1f;
+    [SerializeField] private float boxCastDistance = 1f;
+    [SerializeField] private Vector3 boxCastSize = Vector3.one;
+    [SerializeField] private Vector3 boxCastOffset = Vector3.up;
 
     private float characterAngle = 0;
 
@@ -23,6 +28,11 @@ public class CharacterController : MonoBehaviour
     }
 
     void Update()
+    {
+        Movement();
+    }
+
+    private void Movement()
     {
         float finalSpeed = movementSpeed;
 
@@ -44,26 +54,38 @@ public class CharacterController : MonoBehaviour
 
         bool isRunning = false;
 
+        Vector3 nextPosition = transform.position;
+
         if (Input.GetKey(KeyCode.W))
         {
             isRunning = true;
-            transform.position += (Time.deltaTime * finalSpeed) * transform.forward;
+            nextPosition = transform.position + (Time.deltaTime * finalSpeed) * transform.forward;
         }
         else if (Input.GetKey(KeyCode.S))
         {
             isRunning = true;
-            transform.position -= (Time.deltaTime * finalSpeed) * transform.forward;
+            nextPosition = transform.position - (Time.deltaTime * finalSpeed) * transform.forward;
+        }
+
+        if (!Physics.BoxCast(nextPosition + boxCastOffset, boxCastSize, Vector3.forward, Quaternion.identity, boxCastDistance, wallLayer))
+        {
+            transform.position = nextPosition;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             isRunning = true;
-            transform.position += (Time.deltaTime * sideSpeed) * transform.right;
+            nextPosition = transform.position + (Time.deltaTime * sideSpeed) * transform.right;
         }
         else if (Input.GetKey(KeyCode.A))
         {
             isRunning = true;
-            transform.position -= (Time.deltaTime * sideSpeed) * transform.right;
+            nextPosition = transform.position - (Time.deltaTime * sideSpeed) * transform.right;
+        }
+
+        if (!Physics.BoxCast(nextPosition + boxCastOffset, boxCastSize, Vector3.forward, Quaternion.identity, boxCastDistance, wallLayer))
+        {
+            transform.position = nextPosition;
         }
 
         animator.SetBool("isRunning", isRunning);
