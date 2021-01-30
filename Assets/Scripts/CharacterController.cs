@@ -29,7 +29,8 @@ public class CharacterController : MonoBehaviour
     {
         Movement();
     }
-        private void Movement()
+
+    private void Movement()
     {
         float finalSpeed = movementSpeed;
 
@@ -52,6 +53,16 @@ public class CharacterController : MonoBehaviour
         bool isRunning = false;
 
         Vector3 nextPosition = transform.position;
+
+        if (Input.GetMouseButton(0))
+        {
+            animator.SetBool("Shoot", true);
+            finalSpeed = movementSpeed / 2;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            animator.SetBool("Shoot", false);
+        }
 
         if (Input.GetKey(KeyCode.W))
         {
@@ -96,9 +107,6 @@ public class CharacterController : MonoBehaviour
 
         animator.SetBool("isRunning", isRunning);
 
-        if (Input.GetMouseButton(0))
-        {
-            animator.SetTrigger("Shoot");
-        }
+
     }
 }
