@@ -15,7 +15,20 @@ public class GuardBehaviour : AIBehaviour
 	{
 		MoveToGuardPoint();
 	}
-	
+
+	private void Update()
+	{
+		if (!Enabled)
+		{
+			return;
+		}
+		
+		if (AI.reachedEndOfPath && !AI.pathPending)
+		{
+			ai.transform.rotation = Quaternion.LookRotation(guardPoint.forward);
+		}
+	}
+
 	private void MoveToGuardPoint()
 	{
 		AI.destination = guardPoint.position;
