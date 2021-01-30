@@ -1,20 +1,21 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+using Pathfinding;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IDamageable
 {
 	[SerializeField] private Animator animator;
+	[SerializeField] private AIPath ai;
 	[SerializeField] private AIBehaviour aiBehaviour;
 	[SerializeField] private AgroBehaviour agroBehaviour;
+	[SerializeField] private HealthController healthController;
 
 	[SerializeField] private float agroRadius = 5f;
 
 	[SerializeField] private LayerMask agroLayerMask;
 
 	public bool IsMoving { get; set; } = false;
+	public HealthController HealthController => healthController;
 
 	private void Start()
 	{
@@ -23,6 +24,11 @@ public class EnemyAI : MonoBehaviour
 
 	private void Update()
 	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			TakeDamage(50f);
+		}
+		
 		bool isMoving = aiBehaviour.GetSpeedPercent() > 0.1f;
 		animator.SetBool("isRunning", isMoving);
 		
@@ -43,7 +49,7 @@ public class EnemyAI : MonoBehaviour
 			}
 		}
 	}
-
+	
 	public void AgroOutOfRange()
 	{
 		aiBehaviour.Enabled = true;
@@ -52,8 +58,32 @@ public class EnemyAI : MonoBehaviour
 	private void OnDrawGizmos()
 	{
 		Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
-		Gizmos.color = new Color(0.75f, 0, 0, 0.7f);
+		Gizmos.color = new Color(0.75f, 0, 0, 0.3f);
 		Gizmos.DrawSphere(Vector3.zero, agroRadius);
+	}
+
+	
+	public void TakeDamage(float damageAmount)
+	{
+		if (healthController)
+		{
+			healthController.TakeDamage(damageAmount);
+		}
+		
+		DamageResponse();
+	}
+
+	public void DamageResponse()
+	{
+		Debug.Log("Damage Response");
+	}
+
+	public void Die()
+	{
+		ai.destination = transform.position;
+		agroBehaviour.Enabled = false;
+		aiBehaviour.Enabled = false;
+		animator.SetTrigger("Death");
 	}
 }
 
