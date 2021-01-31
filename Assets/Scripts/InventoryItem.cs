@@ -12,6 +12,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public int itemID;
     public Item item;
     public GameObject itemPrefab;
+    public bool foundPlaceForItem = true;
 
     [SerializeField] Image image = null;
 
@@ -35,6 +36,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         if (Input.GetKeyDown(KeyCode.R) && thisItemBeingDragged)
         {
             RotateItem();
+            inv.SelectHoveringImages(startItemX, startItemY, itemID);
         }
     }
 
@@ -42,7 +44,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     {
         transform.position = Input.mousePosition;
 
-        inv.SelectHoveringImages();
+        inv.SelectHoveringImages(startItemX, startItemY, itemID);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -61,17 +63,21 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             Destroy(gameObject);
         }else 
         {
-            // Color the images depending on item size, green - good loc, red - bad loc
-            // else if the item is in new viable location, change the items location in the inventory
-            // RemoveItem (itemID)
-            // PlaceItem (Item, itemID)
-            transform.position = startLocation;
-            image.color = startColor;
-
-            if (item.sizeX != startItemX && item.sizeY != startItemY)
+            if (foundPlaceForItem)
             {
-                RotateItem();
-            }        
+                inv.MoveItemToNewLocation(startItemX, startItemY, itemID);
+            }
+            else
+            {
+                if (item.sizeX != startItemX && item.sizeY != startItemY)
+                {
+                    RotateItem();
+                }
+
+                transform.position = startLocation;
+            }
+
+            image.color = startColor;
         }
 
         thisItemBeingDragged = false;
@@ -89,12 +95,9 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             transform.rotation = Quaternion.Euler(0f, 0f, 90f);
         }
 
-        int tempSizeX = item.sizeX;
-        item.sizeX = item.sizeY;
-        item.sizeY = tempSizeX;
-
-        image.sprite = item.sprite;
-        image.SetNativeSize();
+        int tempSizeX = startItemX;
+        startItemX = startItemY;
+        startItemY = tempSizeX;
     }
 
     private bool MouseOverDiscard()
