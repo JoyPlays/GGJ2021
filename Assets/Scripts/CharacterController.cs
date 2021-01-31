@@ -158,7 +158,7 @@ public class CharacterController : MonoBehaviour
 			if (hit.transform.gameObject.layer == 12)
 			{
 				IDamageable damageable = hit.transform.gameObject.GetComponent<IDamageable>();
-				damageable.TakeDamage(20f);
+				damageable.TakeDamage(50f, hit.point);
 			}
 			projectileEndPos = hit.point;
 		}

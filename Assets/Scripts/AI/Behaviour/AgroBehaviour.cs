@@ -95,7 +95,7 @@ public class AgroBehaviour : AIBehaviour
 				if (hit.transform.gameObject.layer == 11)
 				{
 					IDamageable damageable = hit.transform.gameObject.GetComponent<IDamageable>();
-					damageable.TakeDamage(10f);
+					damageable.TakeDamage(10f, hit.point);
 				}
 				projectileEndPos = hit.point;
 			}

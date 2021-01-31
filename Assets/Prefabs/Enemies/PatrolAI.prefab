@@ -175,6 +175,7 @@ MonoBehaviour:
   agroBehaviour: {fileID: 4465033950190201280}
   healthController: {fileID: 8430630919323817147}
   collider: {fileID: 4001735282296942345}
+  bloodParticle: {fileID: 194062, guid: 33af30a4455d1fb47b08a2433be068f6, type: 3}
   agroRadius: 15
   agroLayerMask:
     serializedVersion: 2

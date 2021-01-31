@@ -121,6 +121,7 @@ MonoBehaviour:
   inv: {fileID: 824384469}
   animator: {fileID: 4806935174635586037}
   healthController: {fileID: 3449363519236673807}
+  bloodParticle: {fileID: 194062, guid: 33af30a4455d1fb47b08a2433be068f6, type: 3}
 --- !u!114 &824384469
 MonoBehaviour:
   m_ObjectHideFlags: 0
