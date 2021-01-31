@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class CameraXray : MonoBehaviour
 {
+    [Header("Components")]
+    [SerializeField] private Transform character;
+
+    [Header("Params")]
+    [SerializeField] private LayerMask layerMask;
     [SerializeField] private Material transparent;
     [SerializeField] private Material baseMaterial;
-    [SerializeField] private Transform character;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField, Range(0, 1)] private float transparencyAmount = 0.1f;
 
     private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
 
@@ -45,7 +49,7 @@ public class CameraXray : MonoBehaviour
 
             Color color = Color.white;
 
-            color.a = 0.25f;
+            color.a = transparencyAmount;
 
             meshRenderer.material.SetColor("_BaseColor", color);
         }
