@@ -8,42 +8,45 @@ using UnityEngine;
 [RequireComponent(typeof(IDamageable))]
 public class HealthController : MonoBehaviour
 {
-	[SerializeField] private float startHealth = 100f;
+    [SerializeField] private HealthCanvas healthCanvas;
+    [SerializeField] private float startHealth = 100f;
 
-	[SerializeField, ReadOnly] public float health;
-	
-	public bool Alive { get; set; } = true;
+    [SerializeField, ReadOnly] public float health;
 
-	public float Health
-	{
-		get => health; 
-		set => health = value;
-	}
+    public bool Alive { get; set; } = true;
 
-	private IDamageable owner;
+    public float Health
+    {
+        get => health;
+        set => health = value;
+    }
 
-	private void Awake()
-	{
-		owner = GetComponent<IDamageable>();
-		Health = startHealth;
-	}
-	
-	public void TakeDamage(float amount)
-	{
-		if (!Alive)
-		{
-			return;
-		}
+    private IDamageable owner;
 
-		if (amount > 0f)
-		{
-			Health -= amount;
-		}
+    private void Awake()
+    {
+        owner = GetComponent<IDamageable>();
+        Health = startHealth;
+    }
 
-		if (Health <= 0f)
-		{
-			Alive = false;
-			owner.Die();
-		}
-	}
+    public void TakeDamage(float amount)
+    {
+        if (!Alive)
+        {
+            return;
+        }
+
+        if (amount > 0f)
+        {
+            Health -= amount;
+
+            healthCanvas.ChangeBar(Health / startHealth);
+        }
+
+        if (Health <= 0f)
+        {
+            Alive = false;
+            owner.Die();
+        }
+    }
 }
