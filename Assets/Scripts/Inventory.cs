@@ -14,7 +14,6 @@ public class Inventory : MonoBehaviour
 
     [SerializeField] GameObject invSlotPrefab = null;
     [SerializeField] GameObject itemIconPrefab = null;
-    [SerializeField] GameObject item3DPrefab = null;
 
     [SerializeField] float gridCellSize = 0;
     [SerializeField] GameObject inventoryPanel = null;
@@ -59,7 +58,7 @@ public class Inventory : MonoBehaviour
         }   
     }
 
-    public void PlaceItemInInventoryFromPickup(Item item)
+    public void PlaceItemInInventoryFromPickup(Item item, GameObject itemPrefab)
     {
         List<int> freeX = new List<int>();
         List<int> freeY = new List<int>();
@@ -133,7 +132,7 @@ public class Inventory : MonoBehaviour
                         centerY -= gridCellSize * freeY[0];
                     }
 
-                    PlaceItemImage(centerX, centerY, newSizeX, newSizeY, item, itemID);
+                    PlaceItemImage(centerX, centerY, newSizeX, newSizeY, item, itemPrefab, itemID);
 
                     return;
                 }
@@ -157,10 +156,36 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void DiscardItemFromInventory (int itemID, Item item) 
+    private void PlaceItemImage(float xPos, float yPos, int newSizeX, int newSizeY, Item item, GameObject itemPrefab, int newItemID)
+    {
+        GameObject itemIcon = Instantiate(itemIconPrefab, inventoryPanel.transform);
+
+        RectTransform trans = itemIcon.GetComponent<RectTransform>();
+        trans.anchoredPosition = new Vector2(xPos, yPos);
+
+        Image image = itemIcon.GetComponent<Image>();
+
+        if (newSizeX != item.sizeX && newSizeY != item.sizeY)
+        {
+            trans.rotation = Quaternion.Euler(0f, 0f, 90f);
+        }
+
+        image.sprite = item.sprite;
+        image.SetNativeSize();
+
+        InventoryItem invItem = itemIcon.GetComponent<InventoryItem>();
+        invItem.inv = this;
+        invItem.discardPanel = discardPanel;
+        invItem.item = item;
+        invItem.itemID = newItemID;
+        invItem.itemPrefab = itemPrefab;
+        itemID++;
+    }
+
+    public void DiscardItemFromInventory (int itemID, GameObject itemPrefab) 
     {
         RemoveItemFromInventory(itemID);
-        CreateItemObjectIn3D(item);
+        CreateItemObjectIn3D(itemPrefab);
     }
 
     public void RemoveItemFromInventory (int itemID) 
@@ -175,6 +200,12 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void CreateItemObjectIn3D(GameObject itemPrefab)
+    {
+        itemPrefab.transform.position = gameObject.transform.position;
+        itemPrefab.SetActive(true);   
     }
 
     public void SelectHoveringImages () 
@@ -213,43 +244,6 @@ public class Inventory : MonoBehaviour
             InventorySlot currentInvSlot = invImages[x].GetComponent<InventorySlot>();
             currentInvSlot.ObjectNotOverInventorySlot();
         }
-    }
-
-    private void CreateItemObjectIn3D (Item item) 
-    {
-        GameObject item3D = Instantiate(item3DPrefab, gameObject.transform.position, Quaternion.identity);
-
-        item3D.GetComponent<ItemDisplay>().item = item;
-    }
-
-    private void PlaceItemImage (float xPos, float yPos, int newSizeX, int newSizeY, Item item, int newItemID)
-    {
-        GameObject itemIcon = Instantiate(itemIconPrefab, inventoryPanel.transform);
-
-        RectTransform trans = itemIcon.GetComponent<RectTransform>();
-        trans.anchoredPosition = new Vector2(xPos, yPos);
-        
-        Image image = itemIcon.GetComponent<Image>();
-
-        InventoryItem invItem = itemIcon.GetComponent<InventoryItem>();
-        invItem.inv = this;
-        invItem.discardPanel = discardPanel;
-        invItem.item = item;
-        invItem.itemID = newItemID;
-        itemID++;
-
-        if (newSizeX != item.sizeX && newSizeY != item.sizeY)
-        {
-            Sprite tempSprite = item.sprite;
-            item.sprite = item.rotatedSprite;
-            item.rotatedSprite = tempSprite;
-
-            item.sizeX = newSizeX;
-            item.sizeY = newSizeY;
-        }
-
-        image.sprite = item.sprite;
-        image.SetNativeSize();
     }
 
     private void CreateInventorySlots () 

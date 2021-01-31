@@ -11,6 +11,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public int itemID;
     public Item item;
+    public GameObject itemPrefab;
 
     [SerializeField] Image image = null;
 
@@ -56,7 +57,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     {
         if (MouseOverDiscard()) 
         {
-            inv.DiscardItemFromInventory(itemID, item);
+            inv.DiscardItemFromInventory(itemID, itemPrefab);
             Destroy(gameObject);
         }else 
         {
@@ -73,14 +74,20 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             }        
         }
 
+        thisItemBeingDragged = false;
         inv.ResetAllSelectedImages();
     }
 
-    private void RotateItem ()
+    private void RotateItem()
     {
-        Sprite tempSprite = item.sprite;
-        item.sprite = item.rotatedSprite;
-        item.rotatedSprite = tempSprite;
+        if (transform.rotation == Quaternion.Euler(0f, 0f, 90f) && thisItemBeingDragged) 
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+        else 
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+        }
 
         int tempSizeX = item.sizeX;
         item.sizeX = item.sizeY;

@@ -21,6 +21,5 @@ public class Item : ScriptableObject
     public int sizeX;
     public int sizeY;
 
-    public Sprite rotatedSprite;
     public Sprite sprite;
 }

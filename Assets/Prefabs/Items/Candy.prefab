@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1650044500257379271}
   - component: {fileID: 2115994954}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Candy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 1650044501407959129}
   - component: {fileID: 1650044501409126257}
   - component: {fileID: 5844944967431005008}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CandyGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

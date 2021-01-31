@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7995371800235973342}
   - component: {fileID: 7995371800234862602}
   - component: {fileID: 8448716214264505214}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TusonkaGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7995371801744194610}
   - component: {fileID: 200527068085957430}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tushonka
   m_TagString: Untagged
   m_Icon: {fileID: 0}

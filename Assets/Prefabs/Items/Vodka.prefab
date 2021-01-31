@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2510981415794040651}
   - component: {fileID: 1314885498023201194}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Vodka
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 2510981416859928424}
   - component: {fileID: 2510981416861056560}
   - component: {fileID: 1089474510562763617}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: VodkaGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

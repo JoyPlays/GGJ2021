@@ -36,7 +36,7 @@ public class Player : MonoBehaviour, IDamageable
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    ItemDisplay clickedObjDisplay = hit.transform.gameObject.GetComponent<ItemDisplay>();
+                    ItemDisplay clickedObjDisplay = hit.transform.gameObject.GetComponentInParent<ItemDisplay>();
 
                     if (clickedObjDisplay)
                     {
@@ -44,8 +44,8 @@ public class Player : MonoBehaviour, IDamageable
                         {
                             if (itemInRange[x] == clickedObjDisplay)
                             {
+                                inv.PlaceItemInInventoryFromPickup(clickedObjDisplay.item, hit.transform.parent.gameObject);
                                 clickedObjDisplay.DisableObject();
-                                inv.PlaceItemInInventoryFromPickup(clickedObjDisplay.item);
 
                                 break;
                             }
@@ -58,12 +58,12 @@ public class Player : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        itemInRange.Add(other.gameObject.GetComponent<ItemDisplay>());
+        itemInRange.Add(other.gameObject.GetComponentInParent<ItemDisplay>());
     }
 
     private void OnTriggerExit(Collider other)
     {
-        itemInRange.Remove(other.gameObject.GetComponent<ItemDisplay>());
+        itemInRange.Remove(other.gameObject.GetComponentInParent<ItemDisplay>());
     }
 	
 	public void TakeDamage(float damageAmount)
