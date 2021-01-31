@@ -144,8 +144,8 @@ public class CharacterController : MonoBehaviour
 		
 		RaycastHit hit;
 		Ray shootRay = new Ray(shootPoint.position, shootDirection);
-		bool hitSomething = Physics.Raycast(shootRay, out hit, 15f);
-		Debug.DrawRay(shootPoint.position, shootDirection * 15f, Color.blue);
+		bool hitSomething = Physics.Raycast(shootRay, out hit, 50f);
+		Debug.DrawRay(shootPoint.position, shootDirection * 50f, Color.cyan);
 
 		Vector3 projectileEndPos = shootPoint.position + (shootDirection * 50f);
 		if (hitSomething)
@@ -200,7 +200,6 @@ public class CharacterController : MonoBehaviour
 			
 			yield return null;
 		}
-		
 		projectile.SetActive(false);
 	}
 }
