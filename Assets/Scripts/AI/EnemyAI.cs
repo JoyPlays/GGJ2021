@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
 	[SerializeField] private AIBehaviour aiBehaviour;
 	[SerializeField] private AgroBehaviour agroBehaviour;
 	[SerializeField] private HealthController healthController;
+	[SerializeField] private Collider collider;
 
 	[SerializeField] private float agroRadius = 5f;
 
@@ -77,6 +78,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
 	public void Die()
 	{
+		collider.enabled = false;
 		ai.destination = transform.position;
 		agroBehaviour.Enabled = false;
 		aiBehaviour.Enabled = false;

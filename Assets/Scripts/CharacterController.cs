@@ -14,6 +14,7 @@ public class CharacterController : MonoBehaviour
 	
 	[SerializeField] private Transform shootPoint;
 	[SerializeField] private GameObject fakeProjectile;
+	[SerializeField] private GameObject muzzleFlash;
 
     [Header("Params")]
     [SerializeField] private float movementSpeed = 1f;
@@ -158,6 +159,8 @@ public class CharacterController : MonoBehaviour
 			projectileEndPos = hit.point;
 		}
 
+		_ = StartCoroutine(MuzzleSequence());
+		
 		if (fakeProjectile)
 		{
 			_ = StartCoroutine(LaunchFakeProjectile(shootPoint, projectileEndPos));
@@ -166,7 +169,17 @@ public class CharacterController : MonoBehaviour
 		canSHoot = true;
 		nextShotTime = Time.time + delayBetweenShots;
 	}
-	
+
+	private IEnumerator MuzzleSequence()
+	{
+		if (muzzleFlash)
+		{
+			muzzleFlash.SetActive(true);
+			yield return new WaitForSeconds(0.111f);
+			muzzleFlash.SetActive(false);
+		}
+	}
+
 	private IEnumerator LaunchFakeProjectile(Transform startPoint, Vector3 endPos)
 	{
 		GameObject projectile = null;

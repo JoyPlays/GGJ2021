@@ -11,6 +11,7 @@ public class AgroBehaviour : AIBehaviour
 
 	[SerializeField] private Transform shootPoint;
 	[SerializeField] private GameObject fakeProjectile;
+	[SerializeField] private GameObject muzzleFlash;
 
 	[SerializeField] private float resetAgroDistance = 15f;
 	[SerializeField] private float shootRange = 20f;
@@ -103,8 +104,19 @@ public class AgroBehaviour : AIBehaviour
 			{
 				_ = StartCoroutine(LaunchFakeProjectile(i, shootPoint, projectileEndPos));
 			}
+
+			if (muzzleFlash)
+			{
+				muzzleFlash.SetActive(true);
+				yield return new WaitForSeconds(0.111f);
+				muzzleFlash.SetActive(false);
+				yield return new WaitForSeconds(0.222f);
+			}
+			else
+			{
+				yield return new WaitForSeconds(0.333f);
+			}
 			
-			yield return new WaitForSeconds(0.333f);
 		}
 		enemyAI.Animator.SetBool("Shoot", false);
 		canSHoot = true;
