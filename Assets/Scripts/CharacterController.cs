@@ -102,11 +102,14 @@ public class CharacterController : MonoBehaviour
             isRunning = true;
             nextPosition = transform.position + (Time.deltaTime * finalSpeed) * transform.forward;
         }
+
+		/*
         else if (Input.GetKey(KeyCode.S))
         {
             isRunning = true;
             nextPosition = transform.position - (Time.deltaTime * finalSpeed) * transform.forward;
         }
+		*/
 
         Collider[] colliders = Physics.OverlapSphere(nextPosition + sphereCastOffset, 0.5f, wallLayer, QueryTriggerInteraction.Ignore);
 
@@ -115,6 +118,7 @@ public class CharacterController : MonoBehaviour
             transform.position = nextPosition;
         }
 
+		/*
         if (Input.GetKey(KeyCode.D))
         {
             isRunning = true;
@@ -132,7 +136,7 @@ public class CharacterController : MonoBehaviour
         {
             transform.position = nextPosition;
         }
-
+		*/
         animator.SetBool("isRunning", isRunning);
     }
 
