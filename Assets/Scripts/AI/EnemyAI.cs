@@ -9,16 +9,32 @@ public class EnemyAI : MonoBehaviour, IDamageable
 	[SerializeField] private AIBehaviour aiBehaviour;
 	[SerializeField] private AgroBehaviour agroBehaviour;
 	[SerializeField] private HealthController healthController;
+	[SerializeField] private Collider collider;
+	[SerializeField] private GameObject bloodParticle;
 
 	[SerializeField] private float agroRadius = 5f;
 
 	[SerializeField] private LayerMask agroLayerMask;
 
+	private GameObject[] bloodPool = new GameObject[5];
+	
 	public bool IsMoving { get; set; } = false;
 	public HealthController HealthController => healthController;
 
 	public Animator Animator => animator;
 
+	private void Awake()
+	{
+		if (bloodParticle)
+		{
+			for (int i = 0; i < bloodPool.Length; i++)
+			{
+				bloodPool[i] = Instantiate(bloodParticle);
+				bloodPool[i].gameObject.SetActive(false);
+			}
+		}
+	}
+	
 	private void Start()
 	{
 		agroBehaviour.Enabled = false;
@@ -60,23 +76,41 @@ public class EnemyAI : MonoBehaviour, IDamageable
 	}
 
 	
-	public void TakeDamage(float damageAmount)
+	public void TakeDamage(float damageAmount, Vector3 hitPos)
 	{
 		if (healthController)
 		{
 			healthController.TakeDamage(damageAmount);
 		}
 		
-		DamageResponse();
+		DamageResponse(hitPos);
 	}
 
-	public void DamageResponse()
+	public void DamageResponse(Vector3 hitPos)
 	{
-		Debug.Log("Damage Response");
+		GameObject bloodfx = null;
+
+		for (int i = 0; i < bloodPool.Length; i++)
+		{
+			if (!bloodPool[i].activeInHierarchy)
+			{
+				bloodfx = bloodPool[i];
+				break;
+			}
+		}
+
+		if (!bloodfx)
+		{
+			bloodfx = bloodPool[0];
+		}
+		bloodfx.SetActive(false);
+		bloodfx.transform.position = hitPos;
+		bloodfx.SetActive(true);
 	}
 
 	public void Die()
 	{
+		collider.enabled = false;
 		ai.destination = transform.position;
 		agroBehaviour.Enabled = false;
 		aiBehaviour.Enabled = false;

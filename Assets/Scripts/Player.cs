@@ -9,12 +9,27 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] Inventory inv = null;
 	[SerializeField] private Animator animator;
 	[SerializeField] private HealthController healthController;
+	[SerializeField] private GameObject bloodParticle;
 
     private List<ItemDisplay> itemInRange = new List<ItemDisplay>();
     private int layerMask;
 	
 	public HealthController HealthController => healthController;
 
+	private GameObject[] bloodPool = new GameObject[20];
+	
+	private void Awake()
+	{
+		if (bloodParticle)
+		{
+			for (int i = 0; i < bloodPool.Length; i++)
+			{
+				bloodPool[i] = Instantiate(bloodParticle);
+				bloodPool[i].gameObject.SetActive(false);
+			}
+		}
+	}
+	
     void Start()
     {
         layerMask = LayerMask.GetMask("Item");
@@ -66,7 +81,7 @@ public class Player : MonoBehaviour, IDamageable
         itemInRange.Remove(other.gameObject.GetComponentInParent<ItemDisplay>());
     }
 	
-	public void TakeDamage(float damageAmount)
+	public void TakeDamage(float damageAmount, Vector3 hitPos)
 	{
 		if (healthController)
 		{
@@ -77,12 +92,30 @@ public class Player : MonoBehaviour, IDamageable
 			healthController.TakeDamage(damageAmount);
 		}
 		
-		DamageResponse();
+		DamageResponse(hitPos);
 	}
 
-	public void DamageResponse()
+	public void DamageResponse(Vector3 hitPos)
 	{
-		Debug.Log("Damage Response");
+		GameObject bloodfx = null;
+
+		for (int i = 0; i < bloodPool.Length; i++)
+		{
+			if (!bloodPool[i].activeInHierarchy)
+			{
+				bloodfx = bloodPool[i];
+				break;
+			}
+		}
+
+		if (!bloodfx)
+		{
+			bloodfx = bloodPool[0];
+		}
+		bloodfx.SetActive(false);
+		bloodfx.transform.position = hitPos;
+		bloodfx.SetActive(true);
+
 	}
 
 	public void Die()
