@@ -42,7 +42,7 @@ public class Player : MonoBehaviour, IDamageable
 			return;
 		}
 		
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKey(KeyCode.F))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
