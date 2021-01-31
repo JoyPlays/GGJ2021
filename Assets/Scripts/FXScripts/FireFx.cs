@@ -7,29 +7,44 @@ public class FireFx : MonoBehaviour
 	[SerializeField] private Light fireLight;
 	[SerializeField] private float maxValue;
 	[SerializeField] private float minValue;
+	[SerializeField] private float iterationTime = 1f;
 
+	private bool toMax = true;
+	
 	private void Start()
 	{
-		StartCoroutine("FireLightAdjust");
+		_ = StartCoroutine(FireLightAdjust());
 	}
 
-	IEnumerator FireLightAdjust()
+	private IEnumerator FireLightAdjust()
 	{
 		while (true)
 		{
 			yield return new WaitForSeconds(0.05f);
 			float t = 0f;
-			while (t < 5f)
+			while (t < 1f)
 			{
+				t += Time.deltaTime / iterationTime;
+				
+				if (toMax)
+				{
+					fireLight.intensity = Mathf.Lerp(minValue, maxValue, t);
+				}
+				else
+				{
+					fireLight.intensity = Mathf.Lerp(maxValue, minValue, t);
+				}
+				
 				if (fireLight.intensity >= maxValue)
 				{
-					fireLight.intensity = Mathf.Lerp(maxValue, minValue, Time.deltaTime);
+					toMax = false;
 				}
-				if (fireLight.intensity <= minValue)
+				else if (fireLight.intensity <= minValue)
 				{
-					fireLight.intensity = Mathf.Lerp(minValue, maxValue, Time.deltaTime);
+					toMax = true;
 				}
-				t += Time.deltaTime;
+				
+				yield return null;
 			}
 			
 		}
